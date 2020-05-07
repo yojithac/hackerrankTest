@@ -1,14 +1,17 @@
+
 <div *ngIf="team">
-    <span class="team-name"></span>
-    <Button class="sort">&#8597;</Button>
+    <span class="team-name">{{team.name}}</span>
+    <Button class="sort" (click)="sort()">&#8597;</Button>
+    <form [formGroup]="addNewChannel">
     <span class="add-channel">
-        <input placeholder="Channel name"/>
-        <Button>&#8853;</Button>
+        <input placeholder="Channel name" formControlName="newChannel"/>
+        <Button [disabled]="!addNewChannel.valid" (click)="addChannel()">&#8853;</Button>
     </span>
+</form>
 </div>
 <ul class="one" *ngIf="team">
     <li *ngFor="let channel of team && team.channels; let i = index" class="channel-name">
-        <span></span>
-        <Button>&#8854;</Button>
+        <span>{{channel.name}}</span>
+        <Button (click)="removeChannel(i)">&#8854;</Button>
     </li>
 </ul>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder,FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-team-list',
@@ -9,8 +10,8 @@ export class TeamList implements OnInit {
 
   teams: Team[] = [];
   component: Team;
-  
-  constructor() { 
+  addNewTeam: FormGroup;
+  constructor( private fb: FormBuilder) { 
     this.teams.push({
       name: 'Team1',
       channels: [{
@@ -36,7 +37,9 @@ export class TeamList implements OnInit {
   }
 
   ngOnInit() {
-    
+   this.addNewTeam =  this.fb.group({
+      newTeam: ['',[Validators.required,Validators.pattern('^[a-zA-Z]+[0-9]+')]]
+    })
   }
 
   formValidation() {
@@ -44,7 +47,11 @@ export class TeamList implements OnInit {
   }
 
   addTeam(event) {
-    
+    this.teams.push({
+      name: this.addNewTeam.get('newTeam').value,
+      channels:[]
+    })
+    this.addNewTeam.reset();
   }
 }
 
